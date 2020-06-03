@@ -1,7 +1,7 @@
 # BIND9 based on Debian buster-slim
 
-Provided is a Dockerfile to build DNS server using bind9 and debian buster-slim.
-Do you can download and build yourself or you can download by Docker Hub.
+Provided is a Dockerfile with example files to build a Bind9 DNS server from debian buster-slim.
+Do you can download and build it yourself or you can download it via Docker Hub. 
 
 ## Usage
 
@@ -23,8 +23,8 @@ sudo docker run -d \
   dungeondragon/bind9
 ```
 
-You can test if it works (outside the container) with the command dig:
-(DIG is a part of dnsutils package and will need to be installed if not exist)
+You may test if it works (outside the container) with the command dig.
+(DIG is a part of dnsutils package and will need to be installed if not exist.)
 
 ```bash
 dig example.com @localhost
@@ -32,7 +32,7 @@ dig example.com @localhost
 
 ### Run and mount example files
 
-It's recommended to mount certain files and folders to be able to edit the data easily
+It's recommended to mount certain files and folders to be able to edit the data easily.
 The following example will use bind mount to enable easy access to the configuration files supplied in the repository.
 Note that you have to replace /absolute/path/to with your own path.
 
