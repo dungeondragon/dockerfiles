@@ -1,7 +1,7 @@
 # BIND9 based on Debian buster-slim
 
 Provided is a Dockerfile with example files to build a Bind9 DNS server from debian buster-slim.
-Do you can download and build it yourself or you can download it via Docker Hub. 
+You can download and build it yourself or you can download it via Docker Hub. 
 
 The example files are available in the Github repository.
 
