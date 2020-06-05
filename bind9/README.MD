@@ -15,10 +15,8 @@ $docker.io pull dungeondragon/bind9
 
 ### Run
 
-You will need to use sudo because of the low port numbers.
-
 ```bash
-sudo docker run -d \
+docker run -d \
   --name bind9 \
   -p 53:53 \
   -p 53:53/udp \
@@ -39,7 +37,7 @@ The following example will use bind mount to enable easy access to the configura
 Note that you have to replace /absolute/path/to with your own path.
 
 ```bash
-sudo docker run -d \
+docker run -d \
   --name bind9 \
   -p 53:53/udp \
   -p 53:53 \
@@ -47,26 +45,4 @@ sudo docker run -d \
   -v /absolute/path/to/zones:/etc/bind/zones \
   dungeondragon/bind9
 ```
-
-### Run and create volumes
-
-For better backup options and store handling than mount bind use volumes.
-The following example will create Docker volumes for each folder specified.
-
- ```bash
-sudo docker run -d \
-  --name bind9 \
-  -p 53:53/udp \
-  -p 53:53 \
-  -v bind:/etc/bind/ \
-  -v zones:/etc/bind/zones \
-  -v cache:/var/cache/bind \
-  dungeondragon/bind9
-```
-
-To list the volumes run 
- 
-```bash
-docker volume ls                   
- ```
 
