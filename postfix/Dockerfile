@@ -13,10 +13,8 @@ RUN apt-get clean && \
 
 RUN postconf -e inet_protocols=ipv4 
 
-VOLUME ["/var/mail/", "/var/log/postfix", "/var/spool/postfix"]
-
 EXPOSE 25
 
-COPY run /usr/bin/run
+COPY run /usr/bin/postfix
 
-ENTRYPOINT ["/usr/bin/run"]
+ENTRYPOINT ["/usr/bin/postfix"]
