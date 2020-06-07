@@ -13,7 +13,7 @@ RUN apt-get clean && \
 
 RUN postconf -e inet_protocols=ipv4 
 
-VOLUME ["/var/log/postfix", "/var/spool/postfix"]
+VOLUME ["/var/mail/", "/var/log/postfix", "/var/spool/postfix"]
 
 EXPOSE 25
 
