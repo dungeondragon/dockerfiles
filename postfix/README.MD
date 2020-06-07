@@ -16,7 +16,7 @@ docker run -d \
   --name postfix \
   -p 25:25 \
   -v "postfix:/var/spool/postfix" \
-  -v "postfix-mail:/var/log/postfix" \
+  -v "postfix-mail:/var/mail" \
   -v "postfix-log:/var/log/postfix" \
   dungeondragon/postfix
 ```
