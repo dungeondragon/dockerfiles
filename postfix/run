@@ -13,6 +13,12 @@ if [ "$MY_DESTINATION" ]; then
   postconf -e mydestination="$MY_DESTINATION"
 fi
 
+if [ "$VIRTUAL_ALIAS_DOMAINS" ]; then
+  postconf -e virtual_alias_domains="$VIRTUAL_ALIAS_DOMAINS"
+  postconf -e virtual_alias_maps="hash:/etc/postfix/virtual"
+  postconf -e mydestination=
+fi
+
 if [ "$ROOT_ALIAS" ]; then
   sed -i '/^root:/d' /etc/aliases
   echo "root: $ROOT_ALIAS" >> /etc/aliases
