@@ -22,8 +22,8 @@ docker run -d \
 ```
 ### Suppported environment variables to edit the config with postconf
 
-$MY_HOSTNAME
-$MY_NETWORKS
-$MY_DESTINATION
-$VIRTUAL_ALIAS_DOMAINS - will expect you to supply a bind mount to /etc/postfix/virtual
-$ROOT_ALIAS
+$MY_HOSTNAME  
+$MY_NETWORKS  
+$MY_DESTINATION  
+$VIRTUAL_ALIAS_DOMAINS - will expect you to supply a bind mount to /etc/postfix/virtual  
+$ROOT_ALIAS  
