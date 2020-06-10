@@ -14,9 +14,10 @@ if [ "$MY_DESTINATION" ]; then
 fi
 
 if [ "$VIRTUAL_ALIAS_DOMAINS" ]; then
+  postconf -e mydestination=
   postconf -e virtual_alias_domains="$VIRTUAL_ALIAS_DOMAINS"
   postconf -e virtual_alias_maps="hash:/etc/postfix/virtual"
-  postconf -e mydestination=
+  postmap /etc/postfix/virtual
 fi
 
 if [ "$ROOT_ALIAS" ]; then
