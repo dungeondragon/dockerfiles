@@ -1,5 +1,7 @@
 #! /bin/sh
 
+# Update configuration from environment variables
+
 if [ "$MY_HOSTNAME" ]; then
   echo "$MY_HOSTNAME" > /etc/mailname
   postconf -e myhostname="$MY_HOSTNAME"
@@ -14,7 +16,7 @@ if [ "$MY_DESTINATION" ]; then
 fi
 
 if [ "$VIRTUAL_ALIAS_DOMAINS" ]; then
-  postconf -e mydestination=
+  postconf -e mydestination=localhost
   postconf -e virtual_alias_domains="$VIRTUAL_ALIAS_DOMAINS"
   postconf -e virtual_alias_maps="hash:/etc/postfix/virtual"
   postmap /etc/postfix/virtual
@@ -26,11 +28,13 @@ if [ "$ROOT_ALIAS" ]; then
   newaliases
 fi
 
-
-# We have to start and stop postfix first through init.d to populate
-# postfix spool directory for chroot in which postfix is running.
+# Since postfix default logs to syslog we will need to redirect it
+postconf -e maillog_file=/var/log/postfix/mail.log
 
 /etc/init.d/postfix start
-/etc/init.d/postfix abort
 
-exec /usr/lib/postfix/sbin/master -c /etc/postfix -d 2>&1
+touch /var/log/postfix/mail.log
+tail -fn 0 /var/log/postfix/mail.log
+
+exit 0
+
