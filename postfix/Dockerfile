@@ -15,6 +15,6 @@ RUN postconf -e inet_protocols=ipv4
 
 EXPOSE 25
 
-COPY run /usr/bin/postfix
+COPY run /usr/bin/start-postfix
 
-ENTRYPOINT ["/usr/bin/postfix"]
+ENTRYPOINT ["/usr/bin/start-postfix"]

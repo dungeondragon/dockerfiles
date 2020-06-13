@@ -28,13 +28,15 @@ if [ "$ROOT_ALIAS" ]; then
   newaliases
 fi
 
+
 # Since postfix default logs to syslog we will need to redirect it
-postconf -e maillog_file=/var/log/postfix/mail.log
+postconf -e maillog_file=/var/log/mail.log
 
-/etc/init.d/postfix start
+touch /var/log/mail.log
 
-touch /var/log/postfix/mail.log
-tail -fn 0 /var/log/postfix/mail.log
+/usr/sbin/postfix start 
+
+tail -fn 0 /var/log/mail.log 
 
 exit 0
 
