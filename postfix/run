@@ -1,7 +1,5 @@
 #! /bin/sh
 
-# Update configuration from environment variables
-
 if [ "$MY_HOSTNAME" ]; then
   echo "$MY_HOSTNAME" > /etc/mailname
   postconf -e myhostname="$MY_HOSTNAME"
@@ -28,14 +26,14 @@ if [ "$ROOT_ALIAS" ]; then
   newaliases
 fi
 
+# Postfix smtp runs in a chroot environment so we need to copy the following files in order for it to work
+cp /etc/services /var/spool/postfix/etc/services
+cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
-# Since postfix default logs to syslog we will need to redirect it
-postconf -e maillog_file=/var/log/mail.log
-
-touch /var/log/mail.log
-
+# Start daemon
 /usr/sbin/postfix start 
 
+# Attach to a process
 tail -fn 0 /var/log/mail.log 
 
 exit 0

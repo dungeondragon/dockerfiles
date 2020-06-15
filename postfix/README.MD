@@ -1,15 +1,12 @@
 # Postfix based on Debian buster-slim
 
-
-## Usage
-
-### Download
+## Download
 
 ```bash
 docker pull dungeondragon/postfix
 ```
 
-### Run
+## Run
 
 ```bash
 docker run -d \
@@ -20,10 +17,46 @@ docker run -d \
   -v "postfix-log:/var/log/postfix" \
   dungeondragon/postfix
 ```
-### Suppported environment variables to edit the config with postconf
+## Suppported environment variables 
 
 $MY_HOSTNAME  
 $MY_NETWORKS  
 $MY_DESTINATION  
 $VIRTUAL_ALIAS_DOMAINS - will expect you to supply a bind mount to /etc/postfix/virtual  
-$ROOT_ALIAS  
+$ROOT_ALIAS 
+
+## Docker compose example
+
+```bash
+version: "3.8"
+
+services:
+  postfix:
+    image: dungeondragon/postfix
+    container_name: postfix
+    env_file:
+    - .env
+    ports:
+      - "25:25"
+      - "587:587"
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./virtualmap
+        target: /etc/postfix/virtual
+      - log:/var/log
+      - mail:/var/mail
+      - spool:/var/spool/postfix
+
+volumes:
+  log:
+  mail:
+  spool:
+```
+
+## Example of enviroment file .env
+
+```bash
+MY_HOSTNAME=mymailhost.com
+VIRTUAL_ALIAS_DOMAINS=mydomain.com
+```
