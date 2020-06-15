@@ -17,7 +17,7 @@ docker run -d \
   -v "postfix-log:/var/log/postfix" \
   dungeondragon/postfix
 ```
-## Suppported environment variables 
+## Supported environment variables 
 
 $MY_HOSTNAME  
 $MY_NETWORKS  
@@ -25,7 +25,7 @@ $MY_DESTINATION
 $VIRTUAL_ALIAS_DOMAINS - will expect you to supply a bind mount to /etc/postfix/virtual  
 $ROOT_ALIAS 
 
-## Docker compose example
+## Docker compose example: docker-compose.ylm
 
 ```bash
 version: "3.8"
@@ -54,7 +54,7 @@ volumes:
   spool:
 ```
 
-## Example of enviroment file .env
+## Example of enviroment file: .env
 
 ```bash
 MY_HOSTNAME=mymailhost.com
