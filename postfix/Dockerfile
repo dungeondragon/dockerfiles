@@ -13,7 +13,7 @@ RUN apt-get clean && \
 
 RUN postconf -e inet_protocols=ipv4 
 
-EXPOSE 25
+EXPOSE 25 587
 
 COPY run /usr/bin/start-postfix
 
