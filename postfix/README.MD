@@ -10,9 +10,9 @@ docker pull dungeondragon/postfix
 ## Run
 
 ```bash
-docker run -d \
-  --name postfix \
+docker run --name postfix \
   -p 25:25 \
+  -p 587:587 \
 	-e DOMAINS='domain.com, anotherdomain.org' \
 	-e HOST='mx.domain.com' \
   -v /absolute/path/to/vmailbox:/etc/postfix/vmailbox \
@@ -32,19 +32,11 @@ sales@example.com   example.com/sales/
 The example file is from Postfix's own readme file that can be found here:
 http://www.postfix.org/VIRTUAL_README.html
 
-
-## Environment variables 
-
-###Domains you wish to recieve emails for. One domain or a comma seperated list.
-DOMAINS
-
-### FQDN of the hosting server. This should correspond to the mx record of your domains.
-HOST 
-
-
-## Example of enviroment file: .env
+## Example of an enviroment file: .env
 
 ```bash
+#Domains you wish to recieve emails for. One domain or a comma seperated list.
 DOMAINS=mydomain.com, myotherdomain.cc
+#FQDN of the hosting server. This should correspond to the mx record of your domains.
 HOST=mymailhost.com
 ```

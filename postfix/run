@@ -1,10 +1,10 @@
 #! /bin/sh
 
-if [ "$SMTP_SERVER" ]; then
-  postconf -e myhostname="$SMTP_SERVER"
-  echo "$SMTP_SERVER" > /etc/mailname
+if [ "$HOST" ]; then
+  postconf -e myhostname="$HOST"
+  echo "$HOST" > /etc/mailname
 else
-  echo Environment variable 'SMPT_SERVER' is not set. Exiting.. 1>&2
+  echo Environment variable 'HOST' is not set. Exiting.. 1>&2
   exit 1
 fi
 
