@@ -1,39 +1,42 @@
 #! /bin/sh
 
-if [ "$MY_HOSTNAME" ]; then
-  echo "$MY_HOSTNAME" > /etc/mailname
-  postconf -e myhostname="$MY_HOSTNAME"
+if [ "$SMTP_SERVER" ]; then
+  postconf -e myhostname="$SMTP_SERVER"
+  echo "$SMTP_SERVER" > /etc/mailname
+else
+  echo Environment variable 'SMPT_SERVER' is not set. Exiting.. 1>&2
+  exit 1
 fi
 
-if [ "$MY_NETWORKS" ]; then
-  postconf -e mynetworks="$MY_NETWORKS"
+if [ "$DOMAINS" ]; then
+  postconf -e virtual_mailbox_domains="$DOMAINS"
+else
+  echo Environment variable 'DOMAINS' is not set. Exiting.. 1>&2
+  exit 1
 fi
 
-if [ "$MY_DESTINATION" ]; then
-  postconf -e mydestination="$MY_DESTINATION"
+# Update any virtual mailbox changes
+vmailbox=/etc/postfix/vmailbox
+if [ -f "$vmailbox" ]; then
+  postmap "$vmailbox"
+else
+  echo Warning: Missing file $vmailbox 1>&2
 fi
 
-if [ "$VIRTUAL_ALIAS_DOMAINS" ]; then
-  postconf -e mydestination=localhost
-  postconf -e virtual_alias_domains="$VIRTUAL_ALIAS_DOMAINS"
-  postconf -e virtual_alias_maps="hash:/etc/postfix/virtual"
-  postmap /etc/postfix/virtual
+# Update any virtual aliases changes
+virtual=/etc/postfix/virtual
+if [ -f "$virtual" ]; then
+  postmap "$virtual"
+else
+  echo Warning: Missing file $virtual 1>&2
 fi
 
-if [ "$ROOT_ALIAS" ]; then
-  sed -i '/^root:/d' /etc/aliases
-  echo "root: $ROOT_ALIAS" >> /etc/aliases
-  newaliases
-fi
-
-# Postfix smtp runs in a chroot environment so we need to copy the following files in order for it to work
+# Enable Postfix to run in a chroot environment 
 cp /etc/services /var/spool/postfix/etc/services
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
-# Start daemon
 /usr/sbin/postfix start 
 
-# Attach to a process
 tail -fn 0 /var/log/mail.log 
 
 exit 0

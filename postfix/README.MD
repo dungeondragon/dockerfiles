@@ -1,4 +1,5 @@
-# Postfix based on Debian buster-slim
+# Postfix mail server - virtual host
+Run a Postfix mail server with one or multiple domains. This Postfix image is configured to work as a virtual mailbox wich means that you don't have to map users to any users of the host machine. Any users are simply added to the configuration file vmailbox.
 
 ## Download
 
@@ -12,51 +13,38 @@ docker pull dungeondragon/postfix
 docker run -d \
   --name postfix \
   -p 25:25 \
-  -v "postfix:/var/spool/postfix" \
-  -v "postfix-mail:/var/mail" \
-  -v "postfix-log:/var/log/postfix" \
+	-e DOMAINS='domain.com, anotherdomain.org' \
+	-e HOST='mx.domain.com' \
+  -v /absolute/path/to/vmailbox:/etc/postfix/vmailbox \
   dungeondragon/postfix
 ```
-## Supported environment variables 
+You have to change /absolute/path/to with your own path to the file.
 
-$MY_HOSTNAME  
-$MY_NETWORKS  
-$MY_DESTINATION  
-$VIRTUAL_ALIAS_DOMAINS - will expect you to supply a bind mount to /etc/postfix/virtual  
-$ROOT_ALIAS 
-
-## Docker compose example: docker-compose.ylm
-
+## Example file of vmailbox 
 ```bash
-version: "3.8"
-
-services:
-  postfix:
-    image: dungeondragon/postfix
-    container_name: postfix
-    env_file:
-    - .env
-    ports:
-      - "25:25"
-      - "587:587"
-    restart: unless-stopped
-    volumes:
-      - type: bind
-        source: ./virtualmap
-        target: /etc/postfix/virtual
-      - log:/var/log
-      - mail:/var/mail
-      - spool:/var/spool/postfix
-
-volumes:
-  log:
-  mail:
-  spool:
+info@example.com    example.com/info
+sales@example.com   example.com/sales/
+# Comment out the entry below to implement a catch-all.
+# @example.com      example.com/catchall
+...virtual mailboxes for more domains...
 ```
+
+The example file is from Postfix's own readme file that can be found here:
+http://www.postfix.org/VIRTUAL_README.html
+
+
+## Environment variables 
+
+###Domains you wish to recieve emails for. One domain or a comma seperated list.
+DOMAINS
+
+### FQDN of the hosting server. This should correspond to the mx record of your domains.
+HOST 
+
 
 ## Example of enviroment file: .env
 
 ```bash
-MY_HOSTNAME=mymailhost.com
-VIRTUAL_ALIAS_DOMAINS=mydomain.com
+DOMAINS=mydomain.com, myotherdomain.cc
+HOST=mymailhost.com
 ```
