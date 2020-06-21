@@ -19,16 +19,12 @@ fi
 vmailbox=/etc/postfix/vmailbox
 if [ -f "$vmailbox" ]; then
   postmap "$vmailbox"
-else
-  echo Warning: Missing file $vmailbox 1>&2
 fi
 
 # Update any virtual aliases changes
 virtual=/etc/postfix/virtual
 if [ -f "$virtual" ]; then
   postmap "$virtual"
-else
-  echo Warning: Missing file $virtual 1>&2
 fi
 
 # Enable Postfix to run in a chroot environment 
