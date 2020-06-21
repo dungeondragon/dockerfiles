@@ -21,6 +21,12 @@ RUN cat /tmp/vmailbox.cf >> /etc/postfix/main.cf && \
     rm -f /tmp/vmailbox.cf
 
 
+# Create a user with permissions to read/write mail
+RUN useradd -r vmail -u 5000 && \
+    usermod -a -G postdrop vmail && \
+    mkdir -p /var/mail/vhosts && \
+    chown vmail:postdrop /var/mail/vhosts
+
 EXPOSE 25 587
 
 COPY run /usr/bin/start-postfix
