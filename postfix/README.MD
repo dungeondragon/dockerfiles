@@ -13,8 +13,8 @@ docker pull dungeondragon/postfix
 docker run --name postfix \
   -p 25:25 \
   -p 587:587 \
-	-e DOMAINS='domain.com, anotherdomain.org' \
-	-e HOST='mx.domain.com' \
+  -e DOMAINS='domain.com, anotherdomain.org' \
+  -e HOST='mx.domain.com' \
   -v /absolute/path/to/vmailbox:/etc/postfix/vmailbox \
   dungeondragon/postfix
 ```
